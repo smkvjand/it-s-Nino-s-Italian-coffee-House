@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>It's Nino's Italian Coffee House · Bachupally, Hyderabad</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root{
+  --espresso:#3C2A21;
+  --crema:#F5F5DC;
+  --olive:#3d5a2a;
+  --olive-light:#4a6e32;
+  --olive-dark:#2a3d1c;
+  --gold:#c9a84c;
+  --gold-light:#e2c97e;
+  --rust:#c4622d;
+  --ink:#1a120b;
+  --linen:#fdfaf5;
+  --warm:#f0e8d8;
+  --sand:#e8ddd0;
+  --muted:#7a6352;
+  --border-warm:rgba(60,42,33,0.12);
+  --border-olive:rgba(61,90,42,0.2);
+  --nav-h:80px;
+  --sticky-h:56px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h)}
+body{
+  background:var(--linen);
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+  padding-top:var(--nav-h);
+  padding-bottom:var(--sticky-h);
+}
+img{display:block;width:100%;object-fit:cover}
+
+/* grain overlay */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;
+  opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+
+/* ═══════════════════════════════════════════
+   HEADER — ALEX REICHEK STYLE
+   Dark olive · centered brand · split nav
+═══════════════════════════════════════════ */
+#mainHeader{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:var(--olive);
+  height:var(--nav-h);
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  padding:0 4vw;
+  border-bottom:1px solid rgba(201,168,76,.18);
+  transition:background .35s;
+}
+#mainHeader.scrolled{
+  background:rgba(42,61,28,.96);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+/* left nav links */
+.nav-left{
+  display:flex;align-items:center;gap:40px;list-style:none;
+  justify-content:flex-end;padding-right:40px;
+}
+/* right nav links */
+.nav-right{
+  display:flex;align-items:center;gap:40px;list-style:none;
+  justify-content:flex-start;padding-left:40px;
+}
+.nav-left a,.nav-right a{
+  font-size:0.67rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;
+  transition:color .2s;font-weight:400;
+  position:relative;
+}
+.nav-left a::after,.nav-right a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  height:1px;background:var(--gold-light);
+  transform:scaleX(0);transform-origin:center;transition:transform .25s;
+}
+.nav-left a:hover,.nav-right a:hover{color:var(--gold-light)}
+.nav-left a:hover::after,.nav-right a:hover::after{transform:scaleX(1)}
+
+/* center brand */
+.nav-brand{
+  text-align:center;
+  text-decoration:none;
+  display:block;
+  line-height:1;
+}
+.nav-brand-name{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;font-weight:700;
+  color:var(--gold);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  display:block;
+  line-height:0.9;
+}
+.nav-brand-sub{
+  font-size:0.52rem;letter-spacing:0.38em;text-transform:uppercase;
+  color:rgba(201,168,76,.55);margin-top:7px;display:block;
+  font-family:'DM Sans',sans-serif;
+}
+
+/* nav right icon */
+.nav-icon{
+  color:var(--gold);font-size:1.1rem;text-decoration:none;
+  transition:color .2s;
+}
+.nav-icon:hover{color:var(--gold-light)}
+
+/* hamburger */
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  cursor:pointer;background:none;border:none;
+}
+.hamburger span{width:22px;height:1.5px;background:var(--gold);display:block}
+
+/* ═══════════════════════════════════════════
+   MOBILE MENU
+═══════════════════════════════════════════ */
+.mob-menu{
+  position:fixed;inset:0;background:var(--olive-dark);z-index:300;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;
+  opacity:0;visibility:hidden;transition:all .3s;
+}
+.mob-menu.open{opacity:1;visibility:visible}
+.mob-menu a{
+  font-family:'Playfair Display',serif;font-size:2rem;font-style:italic;
+  color:var(--gold);text-decoration:none;transition:color .2s;
+}
+.mob-menu a:hover{color:var(--gold-light)}
+.mob-close{position:absolute;top:24px;right:5vw;font-size:1.3rem;cursor:pointer;background:none;border:none;color:rgba(201,168,76,.5)}
+
+/* ═══════════════════════════════════════════
+   HERO — CINEMATIC
+═══════════════════════════════════════════ */
+#hero{
+  position:relative;
+  height:96vh;min-height:600px;
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+}
+.hero-bg img{
+  width:100%;height:100%;object-fit:cover;
+  transform:scale(1.07);
+  animation:hZoom 20s ease-out forwards;
+}
+@keyframes hZoom{0%{transform:scale(1.07)}100%{transform:scale(1.0)}}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(
+    110deg,
+    rgba(28,18,11,.82) 0%,
+    rgba(28,18,11,.55) 55%,
+    rgba(61,90,42,.25) 100%
+  );
+}
+.hero-vignette{
+  position:absolute;bottom:0;left:0;right:0;height:220px;z-index:2;
+  background:linear-gradient(to top, var(--linen), transparent);
+}
+.hero-content{
+  position:relative;z-index:3;
+  padding:0 6vw;
+  max-width:680px;
+  animation:hFade 1.4s ease both;
+}
+@keyframes hFade{
+  from{opacity:0;transform:translateY(36px)}
+  to{opacity:1;transform:none}
+}
+.hero-label{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:0.6rem;letter-spacing:0.48em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:32px;font-family:'DM Sans',sans-serif;
+}
+.hero-label-line{width:36px;height:1px;background:var(--gold);opacity:.6}
+.hero-headline{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,7.5vw,6.5rem);
+  font-weight:400;line-height:1.0;
+  color:#fff;margin-bottom:12px;
+}
+.hero-headline em{
+  font-style:italic;color:var(--gold);display:block;
+}
+.hero-tagline{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:clamp(1.1rem,2.2vw,1.5rem);
+  color:rgba(245,245,220,.6);margin-bottom:40px;letter-spacing:0.02em;
+}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{
+  font-size:0.66rem;letter-spacing:0.18em;text-transform:uppercase;
+  background:var(--olive);color:var(--gold);
+  padding:15px 36px;text-decoration:none;
+  border:1.5px solid var(--olive);
+  transition:all .22s;display:inline-block;
+  font-family:'DM Sans',sans-serif;
+}
+.btn-primary:hover{background:var(--olive-light);border-color:var(--olive-light);transform:translateY(-2px)}
+.btn-secondary{
+  font-size:0.66rem;letter-spacing:0.18em;text-transform:uppercase;
+  border:1.5px solid rgba(245,245,220,.45);color:#fff;
+  padding:15px 36px;text-decoration:none;transition:all .22s;display:inline-block;
+  font-family:'DM Sans',sans-serif;
+}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
+/* hero side badges */
+.hero-right-badges{
+  position:absolute;right:5vw;top:50%;transform:translateY(-50%);z-index:4;
+  display:flex;flex-direction:column;gap:16px;
+  animation:slideL 1.1s .3s ease both;
+}
+@keyframes slideL{
+  from{opacity:0;transform:translate(28px,-50%)}
+  to{opacity:1;transform:translate(0,-50%)}
+}
+.hero-badge{
+  background:rgba(61,90,42,.85);
+  backdrop-filter:blur(10px);
+  padding:18px 24px;
+  border-left:3px solid var(--gold);
+  min-width:160px;
+}
+.hero-badge-num{
+  font-family:'Playfair Display',serif;
+  font-size:1.9rem;font-weight:700;color:var(--gold);
+  display:block;line-height:1;
+}
+.hero-badge-text{font-size:0.55rem;letter-spacing:0.24em;text-transform:uppercase;color:rgba(201,168,76,.7);margin-top:5px}
+
+/* scroll cue */
+.hero-scroll{
+  position:absolute;bottom:100px;left:6vw;z-index:4;
+  display:flex;align-items:center;gap:12px;
+  font-size:0.56rem;letter-spacing:0.38em;text-transform:uppercase;
+  color:rgba(245,245,220,.38);
+  animation:breathe 3s infinite;
+}
+@keyframes breathe{0%,100%{opacity:.38}50%{opacity:.75}}
+.scroll-line{width:40px;height:1px;background:currentColor}
+
+/* ═══════════════════════════════════════════
+   STATS STRIP
+═══════════════════════════════════════════ */
+.stats-strip{
+  background:var(--espresso);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.stat-item{
+  padding:36px 20px;text-align:center;
+  border-right:1px solid rgba(255,255,255,.05);
+  position:relative;
+}
+.stat-item:last-child{border-right:none}
+.stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:2.5rem;font-weight:400;
+  color:var(--gold);display:block;line-height:1;
+}
+.stat-label{
+  font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:rgba(245,245,220,.28);margin-top:8px;
+}
+
+/* ═══════════════════════════════════════════
+   INFO BAR
+═══════════════════════════════════════════ */
+.info-strip{
+  display:flex;align-items:stretch;
+  border-bottom:1px solid var(--border-warm);
+  background:var(--warm);
+}
+.info-strip-item{
+  flex:1;padding:20px 28px;
+  border-right:1px solid var(--border-warm);
+  display:flex;align-items:center;gap:14px;
+  transition:background .2s;
+}
+.info-strip-item:last-child{border-right:none}
+.info-strip-item:hover{background:var(--sand)}
+.info-icon{font-size:1.1rem}
+.info-label{font-size:0.55rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--muted)}
+.info-val{font-size:0.83rem;color:var(--ink);font-weight:500}
+
+/* ═══════════════════════════════════════════
+   SECTION UTILS
+═══════════════════════════════════════════ */
+.sec-wrap{padding:88px 5vw}
+.sec-head{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:56px;
+}
+.sec-eyebrow{
+  font-size:0.56rem;letter-spacing:0.44em;text-transform:uppercase;
+  color:var(--olive);margin-bottom:10px;
+}
+.sec-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3.4rem);
+  font-weight:400;color:var(--ink);
+}
+.sec-title em{font-style:italic;color:var(--rust)}
+.sec-link{
+  font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--olive);text-decoration:none;
+  border-bottom:1px solid var(--olive);padding-bottom:2px;
+  margin-bottom:8px;transition:opacity .2s;
+}
+.sec-link:hover{opacity:.6}
+
+/* ═══════════════════════════════════════════
+   MENU — CAFFÈ / PASTA / DOLCI
+═══════════════════════════════════════════ */
+#menu{background:var(--linen);padding:88px 0 96px}
+
+/* tab bar */
+.menu-tabs-wrap{
+  padding:0 5vw 48px;
+  display:flex;align-items:flex-end;justify-content:space-between;
+  flex-wrap:wrap;gap:20px;
+}
+.menu-tabs{display:flex;gap:0;border-bottom:2px solid var(--border-warm)}
+.tab-btn{
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  padding:14px 32px;background:none;border:none;
+  color:var(--muted);cursor:pointer;
+  font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;
+  transition:all .2s;position:relative;
+  border-bottom:2px solid transparent;margin-bottom:-2px;
+}
+.tab-btn:hover{color:var(--olive)}
+.tab-btn.active{color:var(--olive);border-bottom-color:var(--olive)}
+
+/* chef's pairing banner */
+.pairing-banner{
+  margin:0 5vw 40px;
+  padding:18px 24px;
+  background:var(--olive);
+  display:flex;align-items:center;gap:16px;
+}
+.pairing-icon{font-size:1.2rem}
+.pairing-label{font-size:0.54rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:3px}
+.pairing-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--gold)}
+
+/* menu grid */
+.menu-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border-warm);
+  margin:0 5vw;
+  border:1px solid var(--border-warm);
+}
+.menu-panel{display:contents}
+.menu-panel.hidden .menu-card{display:none}
+
+.menu-card{
+  background:var(--linen);padding:40px 36px;
+  transition:background .25s;
+  position:relative;overflow:hidden;
+}
+.menu-card:hover{background:var(--warm)}
+.menu-card-img{
+  height:200px;margin:-40px -36px 32px;overflow:hidden;position:relative;
+}
+.menu-card-img img{height:100%;transition:transform .55s cubic-bezier(.25,.46,.45,.94)}
+.menu-card:hover .menu-card-img img{transform:scale(1.06)}
+.card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(28,18,11,.4),transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.menu-card:hover .card-overlay{opacity:1}
+.menu-cat{font-size:0.54rem;letter-spacing:0.36em;text-transform:uppercase;color:var(--olive);margin-bottom:10px}
+.menu-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:400;color:var(--ink);margin-bottom:10px;
+}
+.menu-desc{font-size:0.8rem;line-height:1.9;color:var(--muted);margin-bottom:24px}
+.menu-footer{display:flex;align-items:center;justify-content:space-between}
+.menu-price{
+  font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--rust);
+}
+.menu-tag{
+  font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;
+  padding:4px 12px;
+}
+.tag-olive{background:var(--olive);color:var(--gold)}
+.tag-rust{background:var(--rust);color:#fff}
+.tag-gold{background:var(--gold);color:var(--espresso)}
+
+/* ═══════════════════════════════════════════
+   THE BOTTEGA — E-COMMERCE
+═══════════════════════════════════════════ */
+#bottega{
+  background:var(--espresso);
+  padding:96px 5vw;
+}
+#bottega .sec-eyebrow{color:var(--gold-light)}
+#bottega .sec-title{color:var(--crema)}
+#bottega .sec-title em{color:var(--gold)}
+
+.bottega-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  margin-top:56px;
+}
+.bottega-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,168,76,.12);
+  padding:0;overflow:hidden;
+  transition:transform .25s,box-shadow .25s;
+  cursor:pointer;
+}
+.bottega-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+.bottega-img{height:220px;overflow:hidden}
+.bottega-img img{height:100%;transition:transform .5s}
+.bottega-card:hover .bottega-img img{transform:scale(1.05)}
+.bottega-body{padding:28px}
+.bottega-cat{font-size:0.52rem;letter-spacing:0.32em;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:8px}
+.bottega-name{
+  font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;
+  color:var(--crema);margin-bottom:8px;
+}
+.bottega-desc{font-size:0.78rem;line-height:1.85;color:rgba(245,245,220,.4);margin-bottom:20px}
+.bottega-footer{display:flex;align-items:center;justify-content:space-between}
+.bottega-price{
+  font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);
+}
+.btn-add{
+  font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;
+  background:var(--olive);color:var(--gold);
+  border:none;padding:9px 18px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:background .2s;
+}
+.btn-add:hover{background:var(--olive-light)}
+
+/* Subscribe & Save */
+.subscribe-band{
+  margin-top:48px;
+  padding:40px 48px;
+  background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.18);
+  display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;
+}
+.subscribe-copy .sub-label{
+  font-size:0.54rem;letter-spacing:0.36em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px;
+}
+.subscribe-copy h3{
+  font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;
+  color:var(--crema);
+}
+.subscribe-copy p{font-size:0.82rem;color:rgba(245,245,220,.4);margin-top:6px;line-height:1.7}
+.subscribe-form{display:flex;gap:0;min-width:320px}
+.sub-input{
+  flex:1;padding:14px 18px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(201,168,76,.2);border-right:none;
+  color:var(--crema);font-family:'DM Sans',sans-serif;font-size:0.82rem;
+  outline:none;
+}
+.sub-input::placeholder{color:rgba(245,245,220,.3)}
+.sub-input:focus{background:rgba(255,255,255,.1)}
+.sub-btn{
+  padding:14px 28px;background:var(--olive);color:var(--gold);
+  border:1px solid var(--olive);
+  font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+  white-space:nowrap;transition:background .2s;
+}
+.sub-btn:hover{background:var(--olive-light)}
+
+/* ═══════════════════════════════════════════
+   STORY
+═══════════════════════════════════════════ */
+#story{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--border-warm);
+  border-bottom:1px solid var(--border-warm);
+}
+.story-img{height:600px;overflow:hidden;position:relative}
+.story-img img{height:100%;transition:transform .8s}
+.story-img:hover img{transform:scale(1.03)}
+.story-img-cap{
+  position:absolute;bottom:0;left:0;right:0;padding:28px;
+  background:linear-gradient(0,rgba(28,18,11,.75),transparent);
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.05rem;color:rgba(245,245,220,.75);
+}
+.story-body{
+  padding:80px 6vw;background:var(--warm);
+  display:flex;flex-direction:column;justify-content:center;
+}
+.story-body .sec-eyebrow{margin-bottom:12px}
+.story-body h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.9rem,3vw,2.8rem);
+  font-weight:400;line-height:1.2;color:var(--ink);margin-bottom:28px;
+}
+.story-body h2 em{font-style:italic;color:var(--rust)}
+.story-body p{font-size:0.88rem;line-height:2.05;color:var(--muted);margin-bottom:16px}
+.story-quote{
+  font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;
+  color:var(--olive);border-left:2px solid var(--olive);
+  padding-left:20px;margin:24px 0 32px;line-height:1.65;
+}
+
+/* ═══════════════════════════════════════════
+   INSTAGRAM GALLERY — #NinosMoments
+═══════════════════════════════════════════ */
+#moments{padding:88px 5vw}
+.insta-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:3px;
+  margin-top:52px;
+}
+.insta-item{
+  aspect-ratio:1;overflow:hidden;position:relative;cursor:pointer;
+}
+.insta-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.insta-item:hover img{transform:scale(1.08)}
+.insta-cap{
+  position:absolute;inset:0;
+  background:rgba(61,90,42,.75);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  opacity:0;transition:opacity .3s;
+}
+.insta-item:hover .insta-cap{opacity:1}
+.insta-icon{font-size:1.4rem;color:#fff}
+.insta-tag{font-size:0.62rem;letter-spacing:0.18em;color:rgba(255,255,255,.8);text-transform:uppercase}
+.insta-cta{
+  text-align:center;margin-top:36px;
+}
+.insta-cta a{
+  font-size:0.66rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--olive);text-decoration:none;
+  border-bottom:1px solid var(--olive);padding-bottom:2px;transition:opacity .2s;
+}
+.insta-cta a:hover{opacity:.6}
+
+/* ═══════════════════════════════════════════
+   THE SOUND OF NINO'S — SPOTIFY
+═══════════════════════════════════════════ */
+#sound{
+  background:var(--espresso);
+  padding:88px 5vw;
+  display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;
+}
+#sound .sec-eyebrow{color:var(--gold-light)}
+#sound .sec-title{color:var(--crema)}
+#sound .sec-title em{color:var(--gold)}
+.sound-body p{font-size:0.88rem;line-height:2;color:rgba(245,245,220,.4);margin-top:20px}
+.spotify-embed{
+  border-radius:0;overflow:hidden;
+  border:1px solid rgba(201,168,76,.12);
+}
+.spotify-embed iframe{display:block;border:none}
+
+/* ═══════════════════════════════════════════
+   REVIEWS
+═══════════════════════════════════════════ */
+#reviews{
+  background:var(--sand);
+  border-top:1px solid var(--border-warm);
+  padding:88px 5vw;
+}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
+.review-card{
+  background:var(--linen);padding:40px 36px;
+  border:1px solid var(--border-warm);
+  transition:transform .25s,box-shadow .25s;position:relative;
+}
+.review-card::before{
+  content:'\201C';
+  font-family:'Playfair Display',serif;font-size:6rem;line-height:.5;
+  color:var(--olive);opacity:.1;
+  position:absolute;top:24px;left:24px;
+}
+.review-card:hover{transform:translateY(-5px);box-shadow:0 16px 50px rgba(60,42,33,.1)}
+.review-stars{color:var(--gold);font-size:0.78rem;letter-spacing:3px;margin-bottom:18px}
+.review-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.08rem;line-height:1.8;color:var(--ink);margin-bottom:24px;
+}
+.review-author{font-size:0.7rem;color:var(--muted);font-weight:500;letter-spacing:0.06em}
+
+/* ═══════════════════════════════════════════
+   RESERVE
+═══════════════════════════════════════════ */
+#reserve{
+  padding:100px 5vw;
+  background:var(--olive);color:#fff;
+  text-align:center;position:relative;overflow:hidden;
+}
+#reserve::before{
+  content:"NINO'S";
+  position:absolute;font-family:'Playfair Display',serif;
+  font-size:19vw;font-weight:700;font-style:italic;
+  color:rgba(255,255,255,.035);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  white-space:nowrap;pointer-events:none;letter-spacing:.06em;
+}
+#reserve .sec-eyebrow{color:rgba(201,168,76,.7)}
+#reserve .sec-title{color:var(--crema)}
+#reserve .sec-title em{color:var(--gold-light)}
+#reserve>p{font-size:0.88rem;color:rgba(245,245,220,.55);margin-bottom:52px;line-height:1.9}
+.reserve-row{display:flex;max-width:720px;margin:0 auto}
+.res-input{
+  flex:1;padding:16px 20px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.18);border-right:none;
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;
+  transition:background .2s;
+}
+.res-input::placeholder{color:rgba(255,255,255,.35)}
+.res-input:focus{background:rgba(255,255,255,.18)}
+.res-btn{
+  padding:16px 36px;background:var(--gold);color:var(--espresso);
+  border:none;font-size:0.66rem;letter-spacing:0.18em;text-transform:uppercase;
+  font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+}
+.res-btn:hover{background:var(--gold-light)}
+.reserve-details{
+  display:flex;justify-content:center;gap:64px;margin-top:52px;flex-wrap:wrap;
+}
+.res-det{text-align:center}
+.res-det-label{font-size:0.54rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(245,245,220,.35);margin-bottom:7px}
+.res-det-val{font-size:0.87rem;color:rgba(245,245,220,.85)}
+
+/* ═══════════════════════════════════════════
+   FIND US — MAP
+═══════════════════════════════════════════ */
+#findus{
+  display:grid;grid-template-columns:1fr 1.4fr;
+  border-top:1px solid var(--border-warm);
+}
+.findus-body{
+  background:var(--espresso);
+  padding:72px 5vw;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.findus-body .sec-eyebrow{color:var(--gold-light)}
+.findus-body .sec-title{color:var(--crema);margin-bottom:36px}
+.findus-body .sec-title em{color:var(--gold)}
+.findus-detail{
+  display:flex;align-items:flex-start;gap:16px;
+  margin-bottom:28px;
+}
+.findus-detail-icon{
+  font-size:1.1rem;margin-top:2px;flex-shrink:0;
+}
+.findus-detail-label{
+  font-size:0.54rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:rgba(245,245,220,.3);margin-bottom:5px;
+}
+.findus-detail-val{
+  font-size:0.88rem;color:rgba(245,245,220,.8);line-height:1.65;
+}
+.findus-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-map{
+  font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;
+  background:var(--olive);color:var(--gold);
+  padding:12px 24px;text-decoration:none;
+  border:1.5px solid var(--olive);
+  transition:all .2s;display:inline-block;
+  font-family:'DM Sans',sans-serif;
+}
+.btn-map:hover{background:var(--olive-light);border-color:var(--olive-light)}
+.btn-call{
+  font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;
+  background:transparent;color:var(--gold);
+  padding:12px 24px;text-decoration:none;
+  border:1.5px solid rgba(201,168,76,.3);
+  transition:all .2s;display:inline-block;
+  font-family:'DM Sans',sans-serif;
+}
+.btn-call:hover{border-color:var(--gold)}
+.findus-map{
+  position:relative;min-height:480px;overflow:hidden;
+}
+.findus-map iframe{
+  width:100%;height:100%;border:none;display:block;
+  filter:grayscale(20%) contrast(1.05) saturate(0.9);
+  transition:filter .3s;
+}
+.findus-map:hover iframe{filter:none}
+.map-pin-overlay{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-100%);
+  pointer-events:none;z-index:2;
+  animation:pinBounce 2s ease-in-out infinite;
+}
+@keyframes pinBounce{
+  0%,100%{transform:translate(-50%,-100%)}
+  50%{transform:translate(-50%,-110%)}
+}
+.map-pin-overlay svg{filter:drop-shadow(0 4px 12px rgba(0,0,0,.35))}
+
+@media(max-width:900px){
+  #findus{grid-template-columns:1fr}
+  .findus-map{min-height:300px}
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{
+  padding:64px 5vw 32px;
+  background:var(--espresso);
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand{
+  font-family:'Playfair Display',serif;font-size:1.6rem;font-style:italic;
+  color:var(--gold);margin-bottom:12px;
+}
+.footer-tagline{font-size:0.75rem;line-height:1.95;color:rgba(245,245,220,.28)}
+.footer-col-head{font-size:0.54rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(245,245,220,.22);margin-bottom:18px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer-links a{font-size:0.8rem;color:rgba(245,245,220,.32);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.05);
+  padding-top:28px;display:flex;
+  justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+}
+.footer-copy{font-size:0.6rem;letter-spacing:0.1em;color:rgba(245,245,220,.16)}
+
+/* ═══════════════════════════════════════════
+   STICKY UTILITY FOOTER
+═══════════════════════════════════════════ */
+.sticky-footer{
+  position:fixed;bottom:0;left:0;right:0;z-index:150;
+  height:var(--sticky-h);
+  background:var(--espresso);
+  border-top:1px solid rgba(201,168,76,.18);
+  display:flex;align-items:stretch;
+}
+.sticky-item{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(245,245,220,.5);text-decoration:none;cursor:pointer;
+  background:none;border:none;font-family:'DM Sans',sans-serif;
+  border-right:1px solid rgba(201,168,76,.1);
+  transition:background .2s,color .2s;
+}
+.sticky-item:last-child{border-right:none}
+.sticky-item:hover{background:rgba(201,168,76,.07);color:var(--gold)}
+.sticky-icon{font-size:1rem}
+.sticky-status{display:flex;align-items:center;gap:8px}
+.status-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#4caf50;
+  animation:dotPulse 2s infinite;
+}
+.status-dot.closed{background:#e53935;animation:none}
+@keyframes dotPulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(76,175,80,.4)}
+  50%{opacity:.8;box-shadow:0 0 0 5px rgba(76,175,80,0)}
+}
+.status-label{color:var(--gold);font-weight:500}
+.status-label.closed-label{color:#e57373}
+
+/* ═══════════════════════════════════════════
+   FLOATING ORDER
+═══════════════════════════════════════════ */
+.float-order{
+  position:fixed;bottom:calc(var(--sticky-h) + 20px);right:28px;z-index:140;
+  background:var(--rust);color:#fff;
+  padding:13px 24px;
+  font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;
+  font-family:'DM Sans',sans-serif;text-decoration:none;
+  box-shadow:0 8px 32px rgba(196,98,45,.45);
+  transition:all .25s;
+  display:flex;align-items:center;gap:10px;
+  transform:translateY(20px);opacity:0;
+}
+.float-order.show{transform:none;opacity:1}
+.float-order:hover{background:#a84a1e;transform:translateY(-2px);box-shadow:0 14px 40px rgba(196,98,45,.55)}
+
+/* ═══════════════════════════════════════════
+   REVEAL ANIMATIONS
+═══════════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.22s}.d3{transition-delay:.34s}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:1024px){
+  .bottega-grid{grid-template-columns:1fr 1fr}
+  #sound{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .nav-left,.nav-right,.nav-icon{display:none}
+  .hamburger{display:flex}
+  .hero-right-badges{display:none}
+  .stats-strip{grid-template-columns:1fr 1fr}
+  .stat-item:nth-child(2){border-right:none}
+  .stat-item:nth-child(3){border-right:1px solid rgba(255,255,255,.05)}
+  .stat-item:nth-child(3),.stat-item:nth-child(4){border-top:1px solid rgba(255,255,255,.05)}
+  .menu-grid{grid-template-columns:1fr}
+  #story{grid-template-columns:1fr}
+  .story-img{height:320px}
+  .insta-grid{grid-template-columns:repeat(2,1fr)}
+  .reviews-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .reserve-row{flex-direction:column}
+  .res-input{border-right:1px solid rgba(255,255,255,.18);border-bottom:none}
+  .sec-head{flex-direction:column;align-items:flex-start;gap:14px}
+  .bottega-grid{grid-template-columns:1fr}
+  .subscribe-band{flex-direction:column}
+  .subscribe-form{min-width:0;width:100%}
+  .info-strip{flex-wrap:wrap}
+  .info-strip-item{min-width:50%;border-bottom:1px solid var(--border-warm)}
+  .sticky-item span:not(.sticky-icon):not(.sticky-status):not(.status-dot):not(.status-label){display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     FLOATING ORDER BUTTON
+══════════════════════════════════════ -->
+<a class="float-order" id="floatOrder" href="https://www.zomato.com/hyderabad/its-ninos-italian-coffee-house-medchal-road" target="_blank">
+  🍕 Order Online
+</a>
+
+<!-- ══════════════════════════════════════
+     MOBILE MENU
+══════════════════════════════════════ -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="toggleMob()">✕</button>
+  <a href="#menu" onclick="toggleMob()">Caffè & Menu</a>
+  <a href="#bottega" onclick="toggleMob()">La Bottega</a>
+  <a href="#story" onclick="toggleMob()">Our Story</a>
+  <a href="#moments" onclick="toggleMob()">#NinosMoments</a>
+  <a href="#reserve" onclick="toggleMob()">Reserve</a>
+</div>
+
+<!-- ══════════════════════════════════════
+     HEADER — CENTERED SPLIT NAV
+══════════════════════════════════════ -->
+<header id="mainHeader">
+  <!-- LEFT NAV -->
+  <ul class="nav-left">
+    <li><a href="#menu">Caffè & Menu</a></li>
+    <li><a href="#bottega">La Bottega</a></li>
+  </ul>
+
+  <!-- CENTER BRAND -->
+  <a class="nav-brand" href="#">
+    <span class="nav-brand-name">It's<br>Nino's</span>
+    <span class="nav-brand-sub">Italian Coffee House</span>
+  </a>
+
+  <!-- RIGHT NAV -->
+  <ul class="nav-right">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#reserve">Reserve</a></li>
+    <li><a href="https://www.instagram.com" target="_blank" class="nav-icon">◎</a></li>
+  </ul>
+
+  <!-- HAMBURGER (mobile) -->
+  <button class="hamburger" onclick="toggleMob()">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ══════════════════════════════════════
+     HERO — CINEMATIC
+══════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=1800&q=85" alt="Nino's café atmosphere">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-content">
+    <p class="hero-label">
+      <span class="hero-label-line"></span>
+      Bachupally · Medchal Road · Hyderabad
+    </p>
+    <h1 class="hero-headline">
+      Authenticity<br><em>in Every Sip.</em>
+    </h1>
+    <p class="hero-tagline">Heritage Italian · Modern Soul · Bachupally's favourite table</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="https://www.zomato.com/hyderabad/its-ninos-italian-coffee-house-medchal-road" target="_blank">Order Online</a>
+      <a class="btn-secondary" href="#reserve">Book a Table</a>
+    </div>
+  </div>
+
+  <div class="hero-right-badges">
+    <div class="hero-badge">
+      <span class="hero-badge-num">4.5★</span>
+      <span class="hero-badge-text">Zomato & Google</span>
+    </div>
+    <div class="hero-badge">
+      <span class="hero-badge-num">₹550</span>
+      <span class="hero-badge-text">Avg cost for two</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="scroll-line"></span>Scroll to explore
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     STATS STRIP
+══════════════════════════════════════ -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <span class="stat-num" data-target="4.5" data-dec="1">0</span>
+    <span class="stat-label">Zomato Rating</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="1200" data-dec="0">0</span>
+    <span class="stat-label">Happy Regulars</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="38" data-dec="0">0</span>
+    <span class="stat-label">Menu Items</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="3" data-dec="0">0</span>
+    <span class="stat-label">Years of Love</span>
+  </div>
+</div>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-strip-item">
+    <span class="info-icon">📍</span>
+    <div>
+      <div class="info-label">Location</div>
+      <div class="info-val">Near Okridge School, Bowrampet, Bachupally</div>
+    </div>
+  </div>
+  <div class="info-strip-item">
+    <span class="info-icon">🕙</span>
+    <div>
+      <div class="info-label">Hours</div>
+      <div class="info-val">10:00 AM – 11:00 PM · Every Day</div>
+    </div>
+  </div>
+  <div class="info-strip-item">
+    <span class="info-icon">🍕</span>
+    <div>
+      <div class="info-label">Cuisine</div>
+      <div class="info-val">Italian · Pizza · Pasta · Coffee</div>
+    </div>
+  </div>
+  <div class="info-strip-item">
+    <span class="info-icon">💰</span>
+    <div>
+      <div class="info-label">Avg Cost for Two</div>
+      <div class="info-val">₹550 approx.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MENU — CAFFÈ / PASTA / DOLCI TABS
+══════════════════════════════════════ -->
+<section id="menu">
+  <div class="menu-tabs-wrap">
+    <div>
+      <p class="sec-eyebrow">What We Serve</p>
+      <h2 class="sec-title">Our <em>Signature</em> Menu</h2>
+    </div>
+    <div class="menu-tabs">
+      <button class="tab-btn active" data-tab="caffe">Caffè</button>
+      <button class="tab-btn" data-tab="pasta">Pasta</button>
+      <button class="tab-btn" data-tab="dolci">Dolci</button>
+    </div>
+  </div>
+
+  <!-- Chef's Pairing Banner -->
+  <div class="pairing-banner" id="pairingBanner">
+    <span class="pairing-icon">👨‍🍳</span>
+    <div>
+      <div class="pairing-label">Chef's Pairing</div>
+      <div class="pairing-text" id="pairingText">Pair our Cappuccino with a fresh Croissant — the classic Italian morning ritual.</div>
+    </div>
+  </div>
+
+  <div class="menu-grid">
+
+    <!-- CAFFÈ -->
+    <div class="menu-panel" id="panel-caffe">
+      <div class="menu-card reveal">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=75" alt="Cappuccino">
+          <div class="card-overlay"></div>
+        </div>
+        <p class="menu-cat">Coffee Bar</p>
+        <h3 class="menu-name">Nino's Cappuccino</h3>
+        <p class="menu-desc">Freshly pulled espresso, perfectly steamed milk, and a thick microfoam crown. Hazelnut, vanilla, and caramel variations available.</p>
+        <div class="menu-footer">
+          <span class="menu-price">₹120</span>
+          <span class="menu-tag tag-olive">Must Try</span>
+        </div>
+      </div>
+      <div class="menu-card reveal d1">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=75" alt="Cold Coffee">
+          <div class="card-overlay"></div>
+        </div>
+        <p class="menu-cat">Cold Drinks</p>
+        <h3 class="menu-name">Cold Coffee</h3>
+        <p class="menu-desc">Rich espresso blended with chilled milk and a touch of vanilla. Thick, creamy, and dangerously addictive — our bestselling cold sip.</p>
+        <div class="menu-footer">
+          <span class="menu-price">₹110</span>
+          <span class="menu-tag tag-rust">Best Seller</span>
+        </div>
+      </div>
+      <div class="menu-card reveal d2">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=75" alt="Espresso">
+          <div class="card-overlay"></div>
+        </div>
+        <p class="menu-cat">Espresso Bar</p>
+        <h3 class="menu-name">Double Espresso</h3>
+        <p class="menu-desc">Two concentrated shots of Italian-roast espresso. Smooth, intense, and unapologetically bold. The purist's choice.</p>
+        <div class="menu-footer">
+          <span class="menu-price">₹90</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASTA -->
+    <div class="menu-panel hidden" id="panel-pasta">
+      <div class="menu-card reveal">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1473093226555-0f498e30d481?w=600&q=75" alt="Penne Genovese">
+          <div class="card-overlay"></div>
+        </div>
+        <p class="menu-cat">Handmade Pastas</p>
+        <h3 class="menu-name">Penne Genovese</h3>
+        <p class="menu-desc">Al dente penne tossed in a rich basil pesto with cherry tomatoes, parmesan, and a drizzle of extra virgin olive oil. Simple. Stunning.</p>
+        <div class="menu-footer">
+          <span class="menu-price">₹280</span>
+          <span class="menu-tag tag-gold">Chef's Pick</span>
+        </div>
+      </div>
+      <div class="menu-card reveal d1">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&q=75" alt="Arrabiata">
+          <div class="card-overlay"></div>
+        </div>
+        <p class="menu-cat">Handmade Pastas</p>
+        <h3 class="menu-name">Penne Arrabiata</h3>
+        <p class="menu-desc">Slow-simmered spicy tomato sauce with garlic and red chillies — a fiery Italian classic that warms you from the inside out.</p>
+        <div class="menu-footer">
+          <span class="menu-price">₹250</span>
+          <span class="menu-tag tag-rust">Spicy</span>
+        </div>
+      </div>
+      <div class="menu-card reveal d2">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=600&q=75" alt="White Sauce Pasta">
+          <div class="card-overlay"></div>
+        </div>
+        <p class="menu-cat">Handmade Pastas</p>
+        <h3 class="menu-name">White Sauce Pasta</h3>
+        <p class="menu-desc">Creamy béchamel, seasonal vegetables, and a generous grating of parmesan. Comfort food elevated to something genuinely special.</p>
+        <div class="menu-footer">
+          <span class="menu-price">₹260</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOLCI -->
+    <div class="menu-panel hidden" id="panel-dolci">
+      <div class="menu-card reveal">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=75" alt="Tiramisu">
+          <div class="card-overlay"></div>
+        </div>
+        <p class="menu-cat">Desserts</p>
+        <h3 class="menu-name">Classic Tiramisu</h3>
+        <p class="menu-desc">Mascarpone cream, espresso-soaked ladyfingers, and a dusting of cocoa. Made fresh in-house. As close to Nonna's recipe as Bachupally gets.</p>
+        <div class="menu-footer">
+          <span class="menu-price">₹180</span>
+          <span class="menu-tag tag-gold">Chef's Pick</span>
+        </div>
+      </div>
+      <div class="menu-card reveal d1">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=75" alt="Gelato">
+          <div class="card-overlay"></div>
+        </div>
+        <p class="menu-cat">Gelato</p>
+        <h3 class="menu-name">Artisan Gelato</h3>
+        <p class="menu-desc">Rotating seasonal flavours — pistachio, dark chocolate, strawberry, and hazelnut. Slow-churned, dense, and intensely flavoured.</p>
+        <div class="menu-footer">
+          <span class="menu-price">₹130</span>
+        </div>
+      </div>
+      <div class="menu-card reveal d2">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=600&q=75" alt="Chocolate Cake">
+          <div class="card-overlay"></div>
+        </div>
+        <p class="menu-cat">Baked Goods</p>
+        <h3 class="menu-name">Dark Chocolate Torta</h3>
+        <p class="menu-desc">Dense Italian-style dark chocolate cake with a molten centre, dusted with icing sugar and served warm. A moment of pure indulgence.</p>
+        <div class="menu-footer">
+          <span class="menu-price">₹160</span>
+          <span class="menu-tag tag-rust">Fan Favourite</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /menu-grid -->
+</section>
+
+<!-- ══════════════════════════════════════
+     LA BOTTEGA — E-COMMERCE
+══════════════════════════════════════ -->
+<section id="bottega">
+  <div class="sec-head reveal">
+    <div>
+      <p class="sec-eyebrow">Take Nino's Home</p>
+      <h2 class="sec-title">La <em>Bottega</em></h2>
+    </div>
+    <a class="sec-link" href="#" style="color:var(--gold);border-color:var(--gold)">Shop All →</a>
+  </div>
+
+  <div class="bottega-grid">
+    <div class="bottega-card reveal">
+      <div class="bottega-img">
+        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&q=75" alt="Signature Beans">
+      </div>
+      <div class="bottega-body">
+        <p class="bottega-cat">Single Origin</p>
+        <h3 class="bottega-name">Nino's Signature Beans</h3>
+        <p class="bottega-desc">Our house-blend dark roast — the same beans we pull every morning. 250g bag, freshly roasted.</p>
+        <div class="bottega-footer">
+          <span class="bottega-price">₹480</span>
+          <button class="btn-add" onclick="addToCart(this)">Add to Bag</button>
+        </div>
+      </div>
+    </div>
+    <div class="bottega-card reveal d1">
+      <div class="bottega-img">
+        <img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&q=75" alt="Olive Oil">
+      </div>
+      <div class="bottega-body">
+        <p class="bottega-cat">Cold-Pressed</p>
+        <h3 class="bottega-name">House Olive Oil</h3>
+        <p class="bottega-desc">Cold-pressed extra virgin olive oil imported from Southern Italy. The same bottle that finishes every pasta at Nino's.</p>
+        <div class="bottega-footer">
+          <span class="bottega-price">₹650</span>
+          <button class="btn-add" onclick="addToCart(this)">Add to Bag</button>
+        </div>
+      </div>
+    </div>
+    <div class="bottega-card reveal d2">
+      <div class="bottega-img">
+        <img src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=600&q=75" alt="Pasta Kit">
+      </div>
+      <div class="bottega-body">
+        <p class="bottega-cat">Cook at Home</p>
+        <h3 class="bottega-name">The Nino's Pasta Kit</h3>
+        <p class="bottega-desc">Everything you need for an authentic Italian meal at home — pasta, house sauce, and a recipe card from our kitchen.</p>
+        <div class="bottega-footer">
+          <span class="bottega-price">₹890</span>
+          <button class="btn-add" onclick="addToCart(this)">Add to Bag</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subscribe & Save -->
+  <div class="subscribe-band reveal">
+    <div class="subscribe-copy">
+      <p class="sub-label">For Bachupally Locals</p>
+      <h3>Subscribe & Save</h3>
+      <p>Get your favourite Nino's beans delivered monthly.<br>10% off every order. Cancel anytime.</p>
+    </div>
+    <div class="subscribe-form">
+      <input class="sub-input" type="email" placeholder="your@email.com">
+      <button class="sub-btn" onclick="handleSubscribe(this)">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     STORY
+══════════════════════════════════════ -->
+<section id="story">
+  <div class="story-img">
+    <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=900&q=80" alt="Nino's café interior">
+    <div class="story-img-cap">Inside Nino's — Bachupally's little piece of Italy</div>
+  </div>
+  <div class="story-body">
+    <p class="sec-eyebrow">Our Story</p>
+    <h2>A <em>little corner</em><br>of Italy in Bachupally</h2>
+    <p>Nino's Italian Coffee House was built on a simple love of good food, great coffee, and warm company. Located in the Bowrampet neighbourhood near Okridge School on Medchal Road, we've been a favourite family spot since day one.</p>
+    <p>Whether you come for a morning cappuccino, a weekday lunch with colleagues, or a relaxed family dinner, you'll always find a familiar face and a fresh meal at Nino's.</p>
+    <blockquote class="story-quote">"Vinod bhai is very hardworking and the owner makes sure the place is neat — quality at reasonable rates."<br><small style="font-size:0.7rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-style:normal">— Customer Review</small></blockquote>
+    <a class="btn-primary" href="#reserve">Visit Us Today</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     INSTAGRAM — #NinosMoments
+══════════════════════════════════════ -->
+<section id="moments">
+  <div class="sec-head reveal">
+    <div>
+      <p class="sec-eyebrow">Instagram</p>
+      <h2 class="sec-title"><em>#NinosMoments</em></h2>
+    </div>
+    <a class="sec-link" href="https://www.instagram.com" target="_blank">Follow Us →</a>
+  </div>
+  <div class="insta-grid">
+    <div class="insta-item reveal">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=75" alt="Coffee moment">
+      <div class="insta-cap">
+        <span class="insta-icon">◎</span>
+        <span class="insta-tag">#NinosMoments</span>
+      </div>
+    </div>
+    <div class="insta-item reveal d1">
+      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=75" alt="Pizza">
+      <div class="insta-cap">
+        <span class="insta-icon">◎</span>
+        <span class="insta-tag">#NinosMoments</span>
+      </div>
+    </div>
+    <div class="insta-item reveal d2">
+      <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=75" alt="Tiramisu">
+      <div class="insta-cap">
+        <span class="insta-icon">◎</span>
+        <span class="insta-tag">#NinosMoments</span>
+      </div>
+    </div>
+    <div class="insta-item reveal d3">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=75" alt="Café ambience">
+      <div class="insta-cap">
+        <span class="insta-icon">◎</span>
+        <span class="insta-tag">#NinosMoments</span>
+      </div>
+    </div>
+  </div>
+  <div class="insta-cta">
+    <a href="https://www.instagram.com" target="_blank">View all on Instagram →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     THE SOUND OF NINO'S — SPOTIFY
+══════════════════════════════════════ -->
+<section id="sound">
+  <div class="sound-body reveal">
+    <p class="sec-eyebrow">The Atmosphere</p>
+    <h2 class="sec-title">The Sound<br>of <em>Nino's</em></h2>
+    <p>Vintage 50s Italian pop and jazz — the very playlist that plays every afternoon at our Bachupally table. Close your eyes and you're in Rome.</p>
+  </div>
+  <div class="spotify-embed reveal d1">
+    <iframe
+      src="https://open.spotify.com/embed/playlist/37i9dQZF1DX8mVMVznMRmS?utm_source=generator&theme=0"
+      width="100%" height="352"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     REVIEWS
+══════════════════════════════════════ -->
+<section id="reviews">
+  <div class="sec-head reveal">
+    <div>
+      <p class="sec-eyebrow">What People Say</p>
+      <h2 class="sec-title">Loved by <em>Locals</em></h2>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"I am a frequenter at Nino's from the time it launched. Favourite place for our family for pizza, pasta, breakfast, coffee and shakes. Have tried pretty much everything — still love it all."</p>
+      <p class="review-author">— Regular Customer, Bachupally</p>
+    </div>
+    <div class="review-card reveal d1">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Good place to sit and have nice coffee. Reasonable prices. Good snacks and pizza. Quality food at very affordable rates — you guys saved my weekend!"</p>
+      <p class="review-author">— Google Review</p>
+    </div>
+    <div class="review-card reveal d2">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">"The manager is polite and the cold coffee is amazing for the price. Cozy atmosphere, friendly staff, and very clean. Will definitely be back to try more things."</p>
+      <p class="review-author">— Zomato Review</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     RESERVE
+══════════════════════════════════════ -->
+<section id="reserve">
+  <p class="sec-eyebrow">Come Visit</p>
+  <h2 class="sec-title" style="margin-bottom:16px">Reserve Your <em>Table</em></h2>
+  <p>Drop in or book ahead — we'll have your favourite spot ready.</p>
+  <div class="reserve-row">
+    <input class="res-input" type="text" placeholder="Your Name">
+    <input class="res-input" type="date">
+    <input class="res-input" type="text" placeholder="No. of Guests">
+    <button class="res-btn" onclick="handleReserve(this)">Reserve</button>
+  </div>
+  <div class="reserve-details">
+    <div class="res-det">
+      <div class="res-det-label">Address</div>
+      <div class="res-det-val">166/4, Bowrampet, Near Okridge School, Medchal Rd</div>
+    </div>
+    <div class="res-det">
+      <div class="res-det-label">Open</div>
+      <div class="res-det-val">10:00 AM – 11:00 PM · All Days</div>
+    </div>
+    <div class="res-det">
+      <div class="res-det-label">Order Online</div>
+      <div class="res-det-val">
+        <a href="https://www.zomato.com/hyderabad/its-ninos-italian-coffee-house-medchal-road" target="_blank" style="color:var(--gold-light);text-decoration:underline">Zomato</a> · Swiggy
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FIND US — MAP
+══════════════════════════════════════ -->
+<section id="findus">
+  <div class="findus-body">
+    <p class="sec-eyebrow">Find Us</p>
+    <h2 class="sec-title">Come <em>Visit</em></h2>
+
+    <div class="findus-detail">
+      <span class="findus-detail-icon">📍</span>
+      <div>
+        <div class="findus-detail-label">Address</div>
+        <div class="findus-detail-val">166/4, Bowrampet,<br>Near Okridge School, Medchal Road,<br>Bachupally, Hyderabad</div>
+      </div>
+    </div>
+
+    <div class="findus-detail">
+      <span class="findus-detail-icon">🕙</span>
+      <div>
+        <div class="findus-detail-label">Hours</div>
+        <div class="findus-detail-val">10:00 AM – 11:00 PM · Every Day<br><span id="mapOpenStatus" style="font-size:0.78rem;color:var(--gold)"></span></div>
+      </div>
+    </div>
+
+    <div class="findus-detail">
+      <span class="findus-detail-icon">🚗</span>
+      <div>
+        <div class="findus-detail-label">Getting Here</div>
+        <div class="findus-detail-val">5 min from Bachupally junction · Ample parking · Landmark: Okridge International School</div>
+      </div>
+    </div>
+
+    <div class="findus-btns">
+      <a class="btn-map" href="https://maps.google.com/?q=Ninos+Italian+Coffee+House+Bachupally+Hyderabad" target="_blank">📍 Open in Maps</a>
+      <a class="btn-call" href="tel:+919999999999">📞 Call Us</a>
+    </div>
+  </div>
+
+  <div class="findus-map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3804.9!2d78.3786!3d17.5614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb8e4b7b7b7b7b%3A0x1234567890abcdef!2sBachupally%2C+Hyderabad%2C+Telangana!5e0!3m2!1sen!2sin!4v1234567890"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Nino's Italian Coffee House location">
+    </iframe>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     MAIN FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">It's Nino's</div>
+      <p class="footer-tagline">Italian Coffee House · Bachupally, Hyderabad<br>Pizza · Pasta · Coffee · Tiramisu · Gelato<br>166/4, Bowrampet, Near Okridge School, Medchal Road</p>
+    </div>
+    <div>
+      <p class="footer-col-head">Quick Links</p>
+      <ul class="footer-links">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#bottega">La Bottega</a></li>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#moments">#NinosMoments</a></li>
+        <li><a href="#reserve">Reserve</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-head">Find Us</p>
+      <ul class="footer-links">
+        <li><a href="https://www.zomato.com/hyderabad/its-ninos-italian-coffee-house-medchal-road" target="_blank">Zomato</a></li>
+        <li><a href="#" target="_blank">Google Maps</a></li>
+        <li><a href="#" target="_blank">Swiggy</a></li>
+        <li><a href="https://www.instagram.com" target="_blank">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Nino's Italian Coffee House. All rights reserved.</p>
+    <p class="footer-copy">Made with ♥ for Bachupally</p>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     STICKY UTILITY FOOTER
+══════════════════════════════════════ -->
+<div class="sticky-footer">
+  <a class="sticky-item" href="https://maps.google.com/?q=166/4+Bowrampet+Bachupally+Hyderabad" target="_blank">
+    <span class="sticky-icon">📍</span>
+    <span>Map & Directions</span>
+  </a>
+  <a class="sticky-item" href="tel:+919999999999">
+    <span class="sticky-icon">📞</span>
+    <span>Click to Call</span>
+  </a>
+  <div class="sticky-item">
+    <div class="sticky-status" id="openStatus">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-label" id="statusLabel">Open Now</span>
+    </div>
+    <span style="font-size:0.58rem;color:rgba(245,245,220,.3);margin-left:4px">10 AM – 11 PM</span>
+  </div>
+  <a class="sticky-item" href="https://www.zomato.com/hyderabad/its-ninos-italian-coffee-house-medchal-road" target="_blank">
+    <span class="sticky-icon">🛵</span>
+    <span>Order Online</span>
+  </a>
+</div>
+
+<script>
+/* ── MOBILE MENU ── */
+function toggleMob(){document.getElementById('mobMenu').classList.toggle('open')}
+
+/* ── NAV SCROLL ── */
+const hdr = document.getElementById('mainHeader');
+const floatBtn = document.getElementById('floatOrder');
+window.addEventListener('scroll',()=>{
+  const y = window.scrollY;
+  hdr.classList.toggle('scrolled', y > 80);
+  floatBtn.classList.toggle('show', y > 500);
+},{passive:true});
+
+/* ── REVEAL ── */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ── ANIMATED COUNTERS ── */
+function animCount(el){
+  const target=parseFloat(el.dataset.target);
+  const dec=parseInt(el.dataset.dec||0);
+  const dur=1800;const start=performance.now();
+  (function step(now){
+    const p=Math.min((now-start)/dur,1);
+    const e=1-Math.pow(1-p,3);
+    const v=target*e;
+    el.textContent=dec?v.toFixed(dec):Math.floor(v).toLocaleString();
+    if(p<1)requestAnimationFrame(step);
+    else el.textContent=dec?target.toFixed(dec):target.toLocaleString();
+  })(performance.now());
+}
+const sio=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){animCount(e.target);sio.unobserve(e.target)}})
+},{threshold:0.5});
+document.querySelectorAll('.stat-num[data-target]').forEach(el=>sio.observe(el));
+
+/* ── MENU TABS + CHEF'S PAIRING ── */
+const pairings={
+  caffe:"Pair our Cappuccino with a fresh Croissant — the classic Italian morning ritual.",
+  pasta:"Pair Penne Genovese with a glass of house Pinot Grigio for the full Italian experience.",
+  dolci:"Pair Classic Tiramisu with a double espresso shot — the Venetian way to end a meal."
+};
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    const tab=btn.dataset.tab;
+    document.querySelectorAll('.menu-panel').forEach(p=>p.classList.add('hidden'));
+    document.getElementById('panel-'+tab).classList.remove('hidden');
+    document.getElementById('pairingText').textContent=pairings[tab];
+    // re-trigger reveals
+    document.querySelectorAll('#panel-'+tab+' .reveal').forEach(el=>{
+      el.classList.remove('in');
+      setTimeout(()=>el.classList.add('in'),50);
+    });
+  });
+});
+// init first panel reveals
+document.querySelectorAll('#panel-caffe .reveal').forEach(el=>{
+  setTimeout(()=>el.classList.add('in'),100);
+});
+
+/* ── RESERVE FEEDBACK ── */
+function handleReserve(btn){
+  btn.textContent='✓ Reserved!';
+  btn.style.background='#2d7a3a';btn.style.color='#fff';
+  setTimeout(()=>{btn.textContent='Reserve';btn.style.background='';btn.style.color=''},3000);
+}
+
+/* ── SUBSCRIBE FEEDBACK ── */
+function handleSubscribe(btn){
+  btn.textContent='Subscribed ✓';
+  btn.style.background='#2d7a3a';
+  setTimeout(()=>{btn.textContent='Subscribe';btn.style.background=''},3000);
+}
+
+/* ── ADD TO CART ── */
+function addToCart(btn){
+  const orig=btn.textContent;
+  btn.textContent='Added ✓';btn.style.background='#2d7a3a';btn.style.color='#fff';
+  setTimeout(()=>{btn.textContent=orig;btn.style.background='';btn.style.color=''},2500);
+}
+
+/* ── LIVE OPEN / CLOSED STATUS ── */
+function updateStatus(){
+  const now=new Date();
+  const h=now.getHours();const m=now.getMinutes();
+  const mins=h*60+m;
+  const open=10*60;const close=23*60;
+  const isOpen=(mins>=open && mins<close);
+  const dot=document.getElementById('statusDot');
+  const label=document.getElementById('statusLabel');
+  if(isOpen){
+    dot.classList.remove('closed');
+    label.classList.remove('closed-label');
+    label.textContent='Open Now';
+  } else {
+    dot.classList.add('closed');
+    label.classList.add('closed-label');
+    label.textContent='Closed';
+  }
+}
+updateStatus();
+setInterval(updateStatus,60000);
+
+/* ── MAP SECTION OPEN STATUS ── */
+function updateMapStatus(){
+  const now=new Date();
+  const h=now.getHours();const m=now.getMinutes();
+  const mins=h*60+m;
+  const isOpen=(mins>=600 && mins<1380);
+  const el=document.getElementById('mapOpenStatus');
+  if(el) el.textContent = isOpen ? '● Open right now' : '● Currently closed';
+}
+updateMapStatus();
+setInterval(updateMapStatus,60000);
+</script>
+</body>
+</html>
